@@ -1,0 +1,436 @@
+[
+    {
+        "id": "9d3a40a95a4b289f",
+        "type": "tab",
+        "label": "Smartbins flow simulation",
+        "disabled": false,
+        "info": "# Authir\r\n\r\n## ## # #     Musa Fori Bwala",
+        "env": []
+    },
+    {
+        "id": "8b21caeef1a39b6a",
+        "type": "comment",
+        "z": "9d3a40a95a4b289f",
+        "name": "Smartbin Simulation for Wast Management",
+        "info": "This flow simulates the trash levels of five smartbins by injecting random values representing the amount of trash added at specific intervals. The flow then processes the data, checking if the bins are full and performing actions accordingly. Finally, it publishes the updated bin data to an MQTT topic.",
+        "x": 660,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "c17d7d0ce723e5d7",
+        "type": "mqtt in",
+        "z": "9d3a40a95a4b289f",
+        "name": "",
+        "topic": "smartbin",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "15a7c464238d1fe0",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 1000,
+        "y": 320,
+        "wires": [
+            [
+                "0132a118c5e0872b"
+            ]
+        ]
+    },
+    {
+        "id": "0132a118c5e0872b",
+        "type": "debug",
+        "z": "9d3a40a95a4b289f",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "b9f4478163c36fd3",
+        "type": "mqtt out",
+        "z": "9d3a40a95a4b289f",
+        "name": "",
+        "topic": "smartbin",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "15a7c464238d1fe0",
+        "x": 840,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "4e10d80d3fd1989c",
+        "type": "inject",
+        "z": "9d3a40a95a4b289f",
+        "name": "Bin 1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "bin1",
+        "payloadType": "env",
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "e7197c12de74b7cb"
+            ]
+        ]
+    },
+    {
+        "id": "81777aaf2af1008b",
+        "type": "function",
+        "z": "9d3a40a95a4b289f",
+        "name": "Process Bin 1 Trash Data",
+        "func": "\nvar bin1 = env.get('bin1');\nconst randomTrashData = msg.payload;\n\n\nvar binFullThreshold = 90; // Adjust as needed\n// Check if the bin is full\nif (!bin1.isFull) { \n    // Only proceed if the bin is not full\n    const nextTrashLevel = bin1.trashLevel + randomTrashData\n    if (nextTrashLevel >= binFullThreshold) {\n        // The bin is full\n        bin1.isFull = true;\n        // bin1.trashAddNow = 0; // Reset the flag\n        // Perform actions for a full bin\n        bin1.trashLevel += randomTrashData; // Update the trashLevel property\n        bin1.trashAddNow = randomTrashData; // Update the trashAddNow property\n\n    } else {\n        // The bin is not full\n        bin1.isFull = false;\n        // Add the random number to bin1's properties\n        bin1.trashLevel += randomTrashData; // Update the trashLevel property\n        bin1.trashAddNow = randomTrashData; // Update the trashAddNow property\n    }\n\n    global.set('bin1', bin1);\n    msg.payload = bin1;\n    return msg;\n} else {\n    // Bin is full, return nothing\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 160,
+        "wires": [
+            [
+                "b9f4478163c36fd3"
+            ]
+        ]
+    },
+    {
+        "id": "e7197c12de74b7cb",
+        "type": "random",
+        "z": "9d3a40a95a4b289f",
+        "name": "Simulate Bin 1 Trash Data",
+        "low": 1,
+        "high": 10,
+        "inte": "true",
+        "property": "payload",
+        "x": 330,
+        "y": 160,
+        "wires": [
+            [
+                "81777aaf2af1008b"
+            ]
+        ]
+    },
+    {
+        "id": "d7b6ec80b53f4357",
+        "type": "inject",
+        "z": "9d3a40a95a4b289f",
+        "name": "Bin 2",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "7",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "bin2",
+        "payloadType": "env",
+        "x": 110,
+        "y": 240,
+        "wires": [
+            [
+                "c5a2cdbc1faa542b"
+            ]
+        ]
+    },
+    {
+        "id": "86835b13b5f7052d",
+        "type": "inject",
+        "z": "9d3a40a95a4b289f",
+        "name": "Bin 5",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "9",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "bin5",
+        "payloadType": "env",
+        "x": 110,
+        "y": 480,
+        "wires": [
+            [
+                "7eb8d32a2b24a273"
+            ]
+        ]
+    },
+    {
+        "id": "246678160b07225f",
+        "type": "inject",
+        "z": "9d3a40a95a4b289f",
+        "name": "Bin 4",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "6",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "bin4",
+        "payloadType": "env",
+        "x": 110,
+        "y": 400,
+        "wires": [
+            [
+                "5cff42ec8660fc7e"
+            ]
+        ]
+    },
+    {
+        "id": "1b3566404ad3492c",
+        "type": "inject",
+        "z": "9d3a40a95a4b289f",
+        "name": "Bin 3",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "4",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "bin3",
+        "payloadType": "env",
+        "x": 110,
+        "y": 320,
+        "wires": [
+            [
+                "41326de61c9b3230"
+            ]
+        ]
+    },
+    {
+        "id": "c5a2cdbc1faa542b",
+        "type": "random",
+        "z": "9d3a40a95a4b289f",
+        "name": "Simulate Bin 2 Trash Data",
+        "low": 1,
+        "high": 10,
+        "inte": "true",
+        "property": "payload",
+        "x": 330,
+        "y": 240,
+        "wires": [
+            [
+                "c2ecee1146f61d2e"
+            ]
+        ]
+    },
+    {
+        "id": "41326de61c9b3230",
+        "type": "random",
+        "z": "9d3a40a95a4b289f",
+        "name": "Simulate Bin 3 Trash Data",
+        "low": 1,
+        "high": 10,
+        "inte": "true",
+        "property": "payload",
+        "x": 330,
+        "y": 320,
+        "wires": [
+            [
+                "0d5201e6955af64a"
+            ]
+        ]
+    },
+    {
+        "id": "5cff42ec8660fc7e",
+        "type": "random",
+        "z": "9d3a40a95a4b289f",
+        "name": "Simulate Bin 4 Trash Data",
+        "low": 1,
+        "high": 10,
+        "inte": "true",
+        "property": "payload",
+        "x": 330,
+        "y": 400,
+        "wires": [
+            [
+                "b1d98d3b7b07b20f"
+            ]
+        ]
+    },
+    {
+        "id": "7eb8d32a2b24a273",
+        "type": "random",
+        "z": "9d3a40a95a4b289f",
+        "name": "Simulate Bin 5 Trash Data",
+        "low": 1,
+        "high": 10,
+        "inte": "true",
+        "property": "payload",
+        "x": 330,
+        "y": 480,
+        "wires": [
+            [
+                "8ac1fd7dfec22305"
+            ]
+        ]
+    },
+    {
+        "id": "c2ecee1146f61d2e",
+        "type": "function",
+        "z": "9d3a40a95a4b289f",
+        "name": "Process Bin 2 Trash Data",
+        "func": "\nvar bin2 = env.get('bin2');\nconst randomTrashData = msg.payload;\n\n\nvar binFullThreshold = 90; // Adjust as needed\n// Check if the bin is full\nif (!bin2.isFull) { \n    // Only proceed if the bin is not full\n    const nextTrashLevel = bin2.trashLevel + randomTrashData\n    if (nextTrashLevel >= binFullThreshold) {\n        // The bin is full\n        bin2.isFull = true;\n        // bin2.trashAddNow = 0; // Reset the flag\n        // Perform actions for a full bin\n        bin2.trashLevel += randomTrashData; // Update the trashLevel property\n        bin2.trashAddNow = randomTrashData; // Update the trashAddNow property\n\n    } else {\n        // The bin is not full\n        bin2.isFull = false;\n        // Add the random number to bin2's properties\n        bin2.trashLevel += randomTrashData; // Update the trashLevel property\n        bin2.trashAddNow = randomTrashData; // Update the trashAddNow property\n    }\n\n    global.set('bin2', bin2);\n    msg.payload = bin2;\n    return msg;\n} else {\n    // Bin is full, return nothing\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 240,
+        "wires": [
+            [
+                "b9f4478163c36fd3"
+            ]
+        ]
+    },
+    {
+        "id": "0d5201e6955af64a",
+        "type": "function",
+        "z": "9d3a40a95a4b289f",
+        "name": "Process Bin 3Trash Data",
+        "func": "\nvar bin3 = env.get('bin3');\nconst randomTrashData = msg.payload;\n\n\nvar binFullThreshold = 90; // Adjust as needed\n// Check if the bin is full\nif (!bin3.isFull) {\n    // Only proceed if the bin is not full\n    const nextTrashLevel = bin3.trashLevel + randomTrashData\n    if (nextTrashLevel >= binFullThreshold) {\n        // The bin is full\n        bin3.isFull = true;\n        // bin3.trashAddNow = 0; // Reset the flag\n        // Perform actions for a full bin\n        bin3.trashLevel += randomTrashData; // Update the trashLevel property\n        bin3.trashAddNow = randomTrashData; // Update the trashAddNow property\n\n    } else {\n        // The bin is not full\n        bin3.isFull = false;\n        // Add the random number to bin3's properties\n        bin3.trashLevel += randomTrashData; // Update the trashLevel property\n        bin3.trashAddNow = randomTrashData; // Update the trashAddNow property\n    }\n\n    global.set('bin3', bin3);\n    msg.payload = bin3;\n    return msg;\n} else {\n    // Bin is full, return nothing\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 320,
+        "wires": [
+            [
+                "b9f4478163c36fd3"
+            ]
+        ]
+    },
+    {
+        "id": "b1d98d3b7b07b20f",
+        "type": "function",
+        "z": "9d3a40a95a4b289f",
+        "name": "Process Bin 4 Trash Data",
+        "func": "\nvar bin4 = env.get('bin4');\nconst randomTrashData = msg.payload;\n\n\nvar binFullThreshold = 90; // Adjust as needed\n// Check if the bin is full\nif (!bin4.isFull) {\n    // Only proceed if the bin is not full\n    const nextTrashLevel = bin4.trashLevel + randomTrashData\n    if (nextTrashLevel >= binFullThreshold) {\n        // The bin is full\n        bin4.isFull = true;\n        // bin4.trashAddNow = 0; // Reset the flag\n        // Perform actions for a full bin\n        bin4.trashLevel += randomTrashData; // Update the trashLevel property\n        bin4.trashAddNow = randomTrashData; // Update the trashAddNow property\n\n    } else {\n        // The bin is not full\n        bin4.isFull = false;\n        // Add the random number to bin4's properties\n        bin4.trashLevel += randomTrashData; // Update the trashLevel property\n        bin4.trashAddNow = randomTrashData; // Update the trashAddNow property\n    }\n\n    global.set('bin4', bin4);\n    msg.payload = bin4;\n    return msg;\n} else {\n    // Bin is full, return nothing\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 400,
+        "wires": [
+            [
+                "b9f4478163c36fd3"
+            ]
+        ]
+    },
+    {
+        "id": "8ac1fd7dfec22305",
+        "type": "function",
+        "z": "9d3a40a95a4b289f",
+        "name": "Process Bin 5 Trash Data",
+        "func": "\nvar bin5 = env.get('bin5');\nconst randomTrashData = msg.payload;\n\n\nvar binFullThreshold = 90; // Adjust as needed\n// Check if the bin is full\nif (!bin5.isFull) {\n    // Only proceed if the bin is not full\n    const nextTrashLevel = bin5.trashLevel + randomTrashData\n    if (nextTrashLevel >= binFullThreshold) {\n        // The bin is full\n        bin5.isFull = true;\n        // bin5.trashAddNow = 0; // Reset the flag\n        // Perform actions for a full bin\n        bin5.trashLevel += randomTrashData; // Update the trashLevel property\n        bin5.trashAddNow = randomTrashData; // Update the trashAddNow property\n\n    } else {\n        // The bin is not full\n        bin5.isFull = false;\n        // Add the random number to bin5's properties\n        bin5.trashLevel += randomTrashData; // Update the trashLevel property\n        bin5.trashAddNow = randomTrashData; // Update the trashAddNow property\n    }\n\n    global.set('bin5', bin5);\n    msg.payload = bin5;\n    return msg;\n} else {\n    // Bin is full, return nothing\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 480,
+        "wires": [
+            [
+                "b9f4478163c36fd3"
+            ]
+        ]
+    },
+    {
+        "id": "15a7c464238d1fe0",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]

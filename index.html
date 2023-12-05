@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Welcome | Smartbins Status</title>
+    <link rel="icon" type="image/png" href="images/smartbin.png">
+
+    <link rel="stylesheet" href="./css/bin.css">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/paho-mqtt@1.1.0/paho-mqtt.min.js"></script> -->
+</head>
+
+<body>
+    <p id="message"></p>
+    <div class="main-wrapper">
+        <h1 class="heading">Smart Bin Status</h1>
+
+        <div class="wrapper">
+            <div class="press" id="bin1">
+                <div class="lid" id="led1"></div>
+                <div class="carafe">
+                    <div class="drop"></div>
+                    <div class="spout"></div>
+                    <div class="contents">
+                        <div class="grounds" id="grounds1"></div>
+                        <div class="water"></div>
+                    </div>
+                </div>
+                <div class="plunger">
+                    <div class="shaft">
+                        <div class="knob"></div>
+                    </div>
+                    <div class="filter"></div>
+                </div>
+            </div>
+            <div class="press" id="bin2">
+                <div class="lid" id="led2">
+
+                </div>
+                <div class="carafe">
+                    <div class="drop"></div>
+                    <div class="spout"></div>
+                    <div class="contents">
+                        <div class="grounds" id="grounds2"></div>
+                        <div class="water"></div>
+                    </div>
+                </div>
+                <div class="plunger">
+                    <div class="shaft">
+                        <div class="knob"></div>
+                    </div>
+                    <div class="filter"></div>
+                </div>
+            </div>
+            <div class="press" id="bin3">
+                <div class="lid" id="led3"></div>
+                <div class="carafe">
+                    <div class="drop"></div>
+                    <div class="spout"></div>
+                    <div class="contents">
+                        <div class="grounds" id="grounds3"></div>
+                        <div class="water"></div>
+                    </div>
+                </div>
+                <div class="plunger">
+                    <div class="shaft">
+                        <div class="knob"></div>
+                    </div>
+                    <div class="filter"></div>
+                </div>
+            </div>
+            <div class="press" id="bin4">
+                <div class="lid" id="led4"></div>
+                <div class="carafe">
+                    <div class="drop"></div>
+                    <div class="spout"></div>
+                    <div class="contents">
+                        <div class="grounds" id="grounds4"></div>
+                        <div class="water"></div>
+                    </div>
+                </div>
+                <div class="plunger">
+                    <div class="shaft">
+                        <div class="knob"></div>
+                    </div>
+                    <div class="filter"></div>
+                </div>
+            </div>
+            <div class="press" id="bin5">
+                <div class="lid" id="led5"></div>
+                <div class="carafe">
+                    <div class="drop"></div>
+                    <div class="spout"></div>
+                    <div class="contents">
+                        <div class="grounds" id="grounds5"></div>
+                        <div class="water"></div>
+                    </div>
+                </div>
+                <div class="plunger">
+                    <div class="shaft">
+                        <div class="knob"></div>
+                    </div>
+                    <div class="filter"></div>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper" style="text-align: center;font-weight: 900; font-size: 17PX;">
+            <div class="press">Bin 1 ( <span id="bin1Status"></span>% )</div>
+            <div class="press">Bin 2 ( <span id="bin2Status"></span>% )</div>
+            <div class="press">Bin 3 ( <span id="bin3Status"></span>% )</div>
+            <div class="press">Bin 4 ( <span id="bin4Status"></span>% )</div>
+            <div class="press">Bin 5 ( <span id="bin5Status"></span>% )</div>
+        </div>
+    </div>
+    <p style="text-align: center; position: absolute; bottom: -1%;left:40%; margin-top: 10px;">UG18/SCCS/1054 &copy;
+        2023. All right reserved!</p>
+
+    <script src="./js/mqtt.min.js"></script>
+
+    <script src="./js/bin.js"></script>
+    <script src="./js/functions.js"></script>
+    <script>
+        // Check if browser supports notifications
+
+  
+ 
+  
+    </script>
+</body>
+
+</html>
